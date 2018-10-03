@@ -1066,6 +1066,10 @@ function updateActiveList(width,height) {
         break;
       default:
     }
+    if (visitor.data.departure > minuteCount && visitor.x > (width / 2 - 50)
+      && visitor.x < (width / 2 + 50)) {
+        continue;
+      }
     //console.log("moving visitor");
     if (visitor.dir === "up") {
       visitor.x += stepDistance;
