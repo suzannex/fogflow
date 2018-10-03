@@ -3,6 +3,7 @@
 // import { data } from './data1.js';
 
 const time = "6:08";
+const baseTimeMinutes = 1088;
 const ampm = "PM";
 // Created by running dataParser.js on CSV input from stdin
 const data = [
@@ -951,9 +952,9 @@ let framesPerVisitor;
 let visitorsInMin = [];
 
 // Drawing Constants ------------------------
-let width = 1000;
-let height = 400;
-const baseStepDist = Math.floor(width / framesPerMin);
+let myWidth = 1000;
+let myHeight = 400;
+const baseStepDist = Math.floor(myWidth / framesPerMin);
 const wStepDist = baseStepDist / 5;
 const rStepDist = baseStepDist / 4;
 const cStepDist = baseStepDist / 2;
@@ -966,15 +967,21 @@ let cColor; // goldenrod
 
 // Processing's main functions -------------
 
+function preLoad() {
+  loadFont("https://fonts.googleapis.com/css?family=Montserrat");
+
+}
+
 // Called once when file is loaded
 function setup() {
-  bgColor = color(153,255,204); // light green
-  wColor = color(45,152,106); // teal
-  rColor = color(157,28,222); // purple
-  cColor = color(255,179,0); // goldenrod
+  bgColor = color(201, 255, 235); // light green
+  wColor = color(45,152,106,50); // teal
+  rColor = color(157,28,222,50); // purple
+  cColor = color(255,179,0,50); // goldenrod
 
   frameRate(fRate);
-  createCanvas(width, height);
+  createCanvas(myWidth, myHeight);
+  //fullscreen();
   loop();
 }
 
@@ -984,10 +991,11 @@ function draw() {
   // stroke(40);
   // ellipse(56, 46, 55, 55);
   // Add and/or move and/or remove dots
-  updateActiveList();
+  updateActiveList(width,height);
   //draw the new positions
-  drawActiveVisitors();
+  drawActiveVisitors(width,height);
 
+  drawTime(width - 50, height - 15)
   // increment frame count
   frameCount++;
 }
@@ -1008,7 +1016,7 @@ updateActiveList:
   from currentMinVisitors into activeVisitors
 - move all visitors in activeVisitors to the right or left
 */
-function updateActiveList() {
+function updateActiveList(width,height) {
   let minuteCount = Math.floor(frameCount / framesPerMin);
   //console.log(minuteCount);
   let minutePosition = frameCount % framesPerMin;
@@ -1075,9 +1083,9 @@ function updateActiveList() {
 
 // Draw each visitor in the active list with its position
 // and color as determined by type.
-function drawActiveVisitors() {
+function drawActiveVisitors(width,height) {
   strokeWeight(1);
-  stroke("white");
+  stroke(75);
   for (let visitor of activeVisitors) {
     switch (visitor.data.type) {
       case "w" :
@@ -1097,7 +1105,15 @@ function drawActiveVisitors() {
   }
 }
 
-
+function drawTime(x,y) {
+  let minuteCount = Math.floor(frameCount / framesPerMin);
+  textAlign("center");
+  textSize(30);
+  textFont("Helvetica");
+  stroke(0, 102, 153,75);
+  fill(0, 102, 153,75);
+  text(minutesToHour(minuteCount),x,y);
+}
 
 /*
 data:
@@ -1116,12 +1132,18 @@ every minute, add all of that's minutes visitors to the active list
   -> keep list and count of how many ppl coming in at the minute
 
 
-
-
-
-
-
-
-
-
 */
+
+
+// UTILS -------------------------------------------
+// Convert minute count to a time string after adding the base # of mins.
+function minutesToHour(minutesElapsed) {
+  let total = baseTimeMinutes + minutesElapsed;
+  let hours = Math.floor(total / 60);
+  let mins = total % 60;
+
+  let hoursStr = hours < 10 ? "0"+hours : ""+hours;
+  let minsStr = mins < 10 ? "0"+mins : ""+mins;
+
+  return hoursStr + ":" + minsStr;
+}
