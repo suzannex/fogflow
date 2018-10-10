@@ -934,7 +934,7 @@ let drawing0 = function(p) {
   
   // Called once, when this file is loaded
   p.setup = function() {
-    an = new Animation(p, data, 6, 8, false, p.windowWidth, 400);
+    an = new Animation(p, data, 6, 8, false, p.windowWidth - 17, 400);
     p.frameRate(an.fRate);
     p.createCanvas(an.myWidth, an.myHeight);
     p.loop();
@@ -948,8 +948,6 @@ let drawing0 = function(p) {
 }
 
 let d0 = new p5(drawing0, 'drawing0');
-
-
 
 
 let drawing1 = function(p) {
@@ -1484,7 +1482,7 @@ let drawing1 = function(p) {
   
   // Called once, when this file is loaded
   p.setup = function() {
-    an = new Animation(p, data, 9, 22, true, p.windowWidth, 400);
+    an = new Animation(p, data, 9, 22, true, p.windowWidth - 17, 400);
     p.frameRate(an.fRate);
     p.createCanvas(an.myWidth, an.myHeight);
     p.loop();
@@ -1513,7 +1511,7 @@ let drawing2 = function(p) {
   
   // Called once, when this file is loaded
   p.setup = function() {
-    an = new Animation(p, data, 6, 8, false, 700, 400);
+    an = new Animation(p, data, 4, 22, false, p.windowWidth - 17, 400);
     p.frameRate(an.fRate);
     p.createCanvas(an.myWidth, an.myHeight);
     p.loop();
