@@ -42,8 +42,8 @@ class Animation {
      * Based on latest departure time of any visitor in the data array.
      * Add 5 to allow time for the latest departure to exit the screen
      * before restarting the animation. */
-    const durationInMins = 5 + getLatestDeparture(data);
-    console.log(durationInMins);
+    this.durationInMins = 5 + getLatestDeparture(data);
+    console.log(this.durationInMins);
 
     /**
      * ANIMATION LIFECYCLE STATE
@@ -267,7 +267,6 @@ class Animation {
    * count and position within that minute.
    */
   resetIfOver(minCount, minPosition) {
-    if (minCount === this.durationInMins) { console.log("hit end of sim");}
     if (minCount === this.durationInMins && minPosition === 0) {
       this.frameCount = 0;
       this.activeVisitors = [];
