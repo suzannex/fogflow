@@ -290,10 +290,12 @@ class Animation {
   }
 
   initColorConstants() {
-    this.baseBgColor = this.p.color(160, 223, 71); // darker light green
     // this.borderColor = this.p.color(218, 247, 166);
     this.borderColor = this.p.color(172, 232, 89);
-    this.bgColor = this.p.color(160, 223, 71);//this.baseBgColor; // light green
+    let darkGrayGreen = this.p.color(75, 100, 74);
+    let lightGreen = this.p.color(190, 239, 158);
+    this.baseBgColor = lightGreen; // darker light green
+    this.bgColor = this.baseBgColor;//this.baseBgColor; // light green
     this.waterColor = this.p.color(69, 165, 165);
     this.dotOutlineColor = this.p.color(144, 12, 63);
     this.wColor = this.p.color(255, 195, 0); // yellow
