@@ -1,3 +1,18 @@
 body {
-  background-color: #A0DF47;
+  background-color: #426648;
+}
+
+.animation {
+  margin-bottom: 100px;
+}
+
+.centerCol {
+  margin: auto;
+  width: 75%;
+  margin-top: 50px;
+}
+
+.site, .dateTime {
+  color: #6a9f74;
+  font-family: 'Josefin Sans', sans-serif;
 }

@@ -100,7 +100,7 @@ class Animation {
     this.removeDoneVisitors();
 
     this.frameCount += 1;
-    this.resetIfOver(minCount, minPosition);
+    this.resetIfOver(this.minuteCount(), this.minutePosition());
   }
 
   /**
@@ -111,7 +111,7 @@ class Animation {
     let minCount = this.minuteCount();
     this.drawBG();
     this.drawActiveVisitors();
-    this.drawBorder();
+    // this.drawBorder();
     this.drawTime(minCount);
   }
 
@@ -267,9 +267,11 @@ class Animation {
    * count and position within that minute.
    */
   resetIfOver(minCount, minPosition) {
+    if (minCount === this.durationInMins) { console.log("hit end of sim");}
     if (minCount === this.durationInMins && minPosition === 0) {
       this.frameCount = 0;
       this.activeVisitors = [];
+      this.waitingVisitors = this.data.slice();
     }
   }
 
@@ -293,10 +295,12 @@ class Animation {
     // this.borderColor = this.p.color(218, 247, 166);
     this.borderColor = this.p.color(172, 232, 89);
     let darkGrayGreen = this.p.color(75, 100, 74);
+    let darkGreen = this.p.color(58, 90, 64);
     let lightGreen = this.p.color(190, 239, 158);
-    this.baseBgColor = lightGreen; // darker light green
+    this.baseBgColor = darkGreen; // darker light green
     this.bgColor = this.baseBgColor;//this.baseBgColor; // light green
     this.waterColor = this.p.color(69, 165, 165);
+    this.timeColor = this.p.color(52,124,124);
     this.dotOutlineColor = this.p.color(144, 12, 63);
     this.wColor = this.p.color(255, 195, 0); // yellow
     this.rColor = this.p.color(255, 87, 51); // orange
@@ -385,19 +389,19 @@ class Animation {
    */
   drawActiveVisitors() {
     this.p.strokeWeight(2);
-    this.p.stroke(144, 12, 63);
+    // this.p.stroke(this.dotOutlineColor);
     for (let visitor of this.activeVisitors) {
       switch (visitor.data.type) {
         case "w" :
-          //this.p.stroke(wColor);
+          this.p.stroke(this.wColor);
           this.p.fill(this.wColor);
           break;
         case "r" :
-          //this.p.stroke(rColor); 
+          this.p.stroke(this.rColor); 
           this.p.fill(this.rColor);
           break;
         case "c" :
-          //this.p.stroke(cColor);
+          this.p.stroke(this.cColor);
           this.p.fill(this.cColor);
           break;
         default:
@@ -414,15 +418,15 @@ class Animation {
    */
   drawTime(minCount) {
     let timeString = this.minuteCountToAbsoluteTime(minCount);
-    let x = this.myWidth - 100;
+    let x = this.myWidth - 85;
     let y = this.myHeight - 17;
 
     this.p.textAlign("center");
-    this.p.textSize(40);
-    this.p.textFont("Helvetica");
-    this.p.strokeWeight(3);
-    this.p.stroke(0, 102, 153,75);
-    this.p.fill(0, 102, 153,75);
+    this.p.textSize(35);
+    this.p.textFont('Roboto');
+    this.p.strokeWeight(2);
+    this.p.stroke(this.timeColor);
+    this.p.fill(this.timeColor);
 
     this.p.text(timeString, x, y);
   }
