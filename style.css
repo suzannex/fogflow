@@ -4,29 +4,50 @@ body {
 
 .infoBtn {
   text-align: right;
+  margin-right: 2vh;
   color: #6a9f74;
   font-family: 'Josefin Sans', sans-serif;
 }
 
-.info:hover, .infoBtn:hover ~ .info {
+/* .infoBtn:hover {
   background-color:  #6a9f74;
-  display: block;
+} */
+
+.info h1, .info h3 {
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .info {
+  margin: auto;
+  margin-top: 1vh;
+  margin-right: 3vh;
+  width: 70vw;
+  padding: 1vh 3vh;
+
+  border-radius: 0.5em;
+  border-color: #6a9f74;
+  background-color: #6a9f74;
+  color: #426648;
+  font-size: 14pt;
+  font-family: 'Roboto', sans-serif;
+  display: none;
+}
+/* 
+.info {
   position: absolute;
-  right: 12.5vw;
+  left: 25vw;
   top: 12vh;
   width: 50vw;
   padding: 15px 30px;
 
   border-radius: 0.5em;
   border-color: #6a9f74;
+  background-color: #6a9f74;
   color: #426648;
   font-size: 14pt;
   font-family: 'Roboto', sans-serif;
   display: none;
-}
+} */
 
 .animation {
   margin-bottom: 100px;

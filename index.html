@@ -11,10 +11,23 @@
   </head>
   <body>
   <div class="centerCol">
+    <script>
+      function toggleVisibility(id) {
+        console.log(id);
+        let e = document.getElementById(id);
+        if(e.style.display == 'block') {
+          e.style.display = 'none';
+          document.getElementById('infoBtn').innerHTML = 'Info';
+        } else {
+          e.style.display = 'block';
+          document.getElementById('infoBtn').innerHTML = 'hide info';
+        }
+      }
+    </script>
 
-    <div class="infoBtn">Info</div>
-    <div class="info">
-      <h2>Fog x Ebb x Flow</h2>
+    <div class="infoBtn" id="infoBtn" onClick="toggleVisibility('infoPanel')"">Info</div>
+    <div class="info" id="infoPanel">
+      <h1>Fog x Ebb x Flow</h1>
       <h3> Inspiration </h3>
       <p>
         Over the course of several visits to different FOG x FLO installations,
