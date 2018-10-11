@@ -1,6 +1,6 @@
 
 
-let makeDrawingFunc = function(drawingData, startHour, startMin, timeIsAm) {
+let makeDrawingFunc = function(drawingData, startHour, startMin, timeIsAm, fogTimes) {
   return (p) => {
     let data = drawingData;
     let an;
@@ -10,7 +10,7 @@ let makeDrawingFunc = function(drawingData, startHour, startMin, timeIsAm) {
     
     // Called once, when this file is loaded
     p.setup = function() {
-      an = new Animation(p, data, startHour, startMin, timeIsAm, drawingWidth, drawingHeight);
+      an = new Animation(p, data, startHour, startMin, timeIsAm, drawingWidth, drawingHeight, fogTimes);
       p.frameRate(an.fRate);
       p.createCanvas(an.myWidth, an.myHeight);
       p.loop();
@@ -2487,7 +2487,7 @@ let data2 = [
 ];
 
 
-let d0 = new p5(makeDrawingFunc(data0, 6, 8, false), 'drawing0');
-let d1 = new p5(makeDrawingFunc(data1, 9, 22, true), 'drawing1');
-let d2 = new p5(makeDrawingFunc(data2, 4, 14, false), 'drawing2');
+let d0 = new p5(makeDrawingFunc(data0, 6, 8, false, [[22,27], [52,57]]), 'drawing0');
+let d1 = new p5(makeDrawingFunc(data1, 9, 22, true, [[8,13], [38,43]]), 'drawing1');
+let d2 = new p5(makeDrawingFunc(data2, 4, 14, false, [[16,21], [46,51]]), 'drawing2');
 

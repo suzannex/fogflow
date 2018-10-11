@@ -20,16 +20,19 @@ function getLatestDeparture(data) {
 }
 
 class Animation {
-  /* this.pJS, [Visitor, ...] Number Number Boolean -> Animation
+  /* this.pJS, [Visitor, ...] Number Number Boolean [[Number Number], ..]-> Animation
   Provide array of Visitor data objects that this Animation will manipulate.
   Give animation start time in 12-hour hours and minutes.
   Boolean am = true if start time is AM, false if PM
+  fogTimes is array of pairs of minutes, representing times in this animation
+  when fog starts and ends.
   */
-  constructor(p, data, startHrs, startMins, am, width, height) {
+  constructor(p, data, startHrs, startMins, am, width, height, fogTimes) {
     this.p = p;
     this.baseTimeMinutes = timeInMins(startHrs, startMins);
     this.ampm = am;
     this.data = data;
+    this.fogTimes = fogTimes;
 
     /**
      * ANIMATION TIME CONSTANTS
@@ -109,9 +112,10 @@ class Animation {
    */
   draw() {
     let minCount = this.minuteCount();
+    let minPosition = this.minutePosition();
     this.drawBG();
+    this.drawFog(this.getFogOpacity(minCount, minPosition));
     this.drawActiveVisitors();
-    // this.drawBorder();
     this.drawTime(minCount);
   }
 
@@ -263,6 +267,31 @@ class Animation {
   }
 
   /**
+   * Given a minute count and minute position, determine what opacity fog
+   * should be applied to the animation.
+   * If minute is not in any fog interval, return 0.
+   * Otherwise, return an opacity value in range (0,200]
+   * depending on how close to start or end of fog the given time is.
+   * First and last minutes are gradients, inner minutes are "solid"
+   * light white
+   */
+  getFogOpacity(minCount, minPosition) {
+    let highestOpacity = 200;
+    for (let fogInterval of this.fogTimes) {
+      let start = fogInterval[0];
+      let end = fogInterval[1];
+      if (minCount > start && minCount < end) {
+        return highestOpacity;
+      } else if (minCount === start) {
+        return highestOpacity * minPosition / this.framesPerMin;
+      } else if (minCount === end) {
+        return highestOpacity - (highestOpacity * minPosition / this.framesPerMin);
+      }
+    }
+    return 0;
+  }
+
+  /**
    * Reset the animation if it's over, as determined by the minute
    * count and position within that minute.
    */
@@ -305,8 +334,6 @@ class Animation {
     this.rColor = this.p.color(255, 87, 51); // orange
     this.cColor = this.p.color(199, 0, 57); // dark red
   }
-
-
 
 
 
@@ -381,6 +408,20 @@ class Animation {
     this.p.stroke(this.borderColor);
     this.p.noFill();
     this.p.rect(0,0,this.myWidth,this.myHeight);
+  }
+
+  /**
+   * Draw a rectangle over the whole screen with the given opacity
+   * to represent the fog. If opacity is 0, don't bother.
+   */
+  drawFog(opacity) {
+    if (opacity > 0) {
+      let fogColor = this.p.color(255,255,255,opacity);
+      this.p.strokeWeight(10);
+      this.p.stroke(fogColor);
+      this.p.fill(fogColor);
+      this.p.rect(0,0,this.myWidth,this.myHeight);
+    }
   }
 
   /**
